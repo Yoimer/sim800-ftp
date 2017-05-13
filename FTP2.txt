@@ -17,6 +17,7 @@ OK
 
 AT+FTPSERV="ftp.marsinnovations.in"
 AT+FTPSERV="simcom.exavault.com"
+AT+FTPSERV="ftp.drivehq.com" 
 
 OK
 
@@ -24,6 +25,7 @@ OK
 
 AT+FTPUN="valetron@marsinnovations.in"
 AT+FTPUN="zyf"
+AT+FTPUN="Yoimer_David"
 
 OK
 
@@ -31,6 +33,7 @@ OK
 
 AT+FTPPW="valetron"
 AT+FTPPW="zyf"
+AT+FTPPW="ragnar28*"
 
 OK
 
@@ -121,6 +124,7 @@ OK
 //Set the file name which we want to download from the server, which is 1K.txt
 
 AT+FTPGETNAME="1K.txt"
+AT+FTPGETNAME="7100CTCP.txt"
 
 OK
 
@@ -176,6 +180,7 @@ OK
 
 AT+FTPSERV="ftp.marsinnovations.in"
 AT+FTPSERV="simcom.exavault.com"
+AT+FTPSERV="ftp.drivehq.com"
 
 OK
 
@@ -183,6 +188,7 @@ OK
 
 AT+FTPUN="valetron@marsinnovations.in"
 AT+FTPUN="zyf"
+AT+FTPUN="Yoimer_David"
 
 OK
 
@@ -190,6 +196,7 @@ OK
 
 AT+FTPPW="valetron"
 AT+FTPPW="zyf"
+AT+FTPPW="ragnar28*"
 
 OK
 
@@ -205,6 +212,7 @@ OK
 +FTPLIST: 1,1  //Data are available 
 
 //Request to read 1024 bytes, but only 126 bytes are now available
+AT+FTPLIST=2,1024 
 +FTPLIST: 2,126 
 total 0 
 drw-rw-rw- 1 user group 0 Oct 1
