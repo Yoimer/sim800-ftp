@@ -1,0 +1,262 @@
+////////// Setting up GPRS connection
+AT+SAPBR=3,1,"Contype", "GPRS"
+AT+SAPBR=3,1,"APN","internet.movistar.ve"
+AT+SAPBR=1,1 // Has to be OK
+AT+SAPBR=2,1
+AT+SAPBR=0,1 // Close
+
+////////// Uploading a file to the server
+
+//We were allocated a IP address and now we can proceed further by setting up the FTP bearer profile identifier
+
+AT+FTPCID=1
+
+OK
+
+//Set the FTP server name to which we want to connect, which in my case is ftp.marsinnovations.in
+
+AT+FTPSERV="ftp.marsinnovations.in"
+AT+FTPSERV="simcom.exavault.com"
+
+OK
+
+//Set the FTP user name, which in my case is valetron@marsinnovations.in
+
+AT+FTPUN="valetron@marsinnovations.in"
+AT+FTPUN="zyf"
+
+OK
+
+//Set the FTP password for logging in, which in my case is valetron
+
+AT+FTPPW="valetron"
+AT+FTPPW="zyf"
+
+OK
+
+//Set the file name which we want to upload to the server, which in my case is 1K.txt
+
+AT+FTPPUTNAME="1K.txt"
+AT+FTPPUTNAME="111.txt"
+
+OK
+
+//Set the path where the file needs to be uploaded, Here a forward slash ("/") means we are uploading to the root directory of my FTP account
+
+AT+FTPPUTPATH="/"
+
+OK
+
+//Start the FTP put session, by giving this command
+
+AT+FTPPUT=1
+
+OK
+
+//The below output from module indicates it is ready for data upload and 1248 is the max length of data that can be sent at a time, It depends on network status
+
++FTPPUT:1,1,1248
+
+//The below command tells the module that we want to send 10 bytes of data
+
+AT+FTPPUT=2,10
+
+//The below URC means that it is ready to accept data and we have to start typing in the data. In my case, i have typed Hello12345
+
++FTPPUT:2,10
+
+Hello12345
+
+//The OK response means that it has received the data
+
+OK
+
+//The below URC means that it is ready to transfer more data
+
++FTPPUT:1,1,1248
+
+//But we don't want to transfer more data, So we close the FTP put session by the below command
+
+AT+FTPPUT=2,0
+
+OK
+
++FTPPUT:1,0
+
+//By now should be able to see a file named 1K.txt in your server FTP account root directory with the content Hello12345 
+
+
+
+////////// Download a file from the server
+
+//For simplicity we will download the same file we uploaded earlier 
+
+//We were allocated a IP address and now we can proceed further by setting up the FTP bearer profile identifier
+
+AT+FTPCID=1
+
+OK
+
+//Set the FTP server name to which we want to connect, which in my case is ftp.marsinnovations.in
+
+AT+FTPSERV="ftp.marsinnovations.in"
+AT+FTPSERV="simcom.exavault.com"
+
+OK
+
+//Set the FTP user name, which in my case is valetron@marsinnovations.in
+
+AT+FTPUN="valetron@marsinnovations.in"
+AT+FTPUN="zyf"
+
+OK
+
+//Set the FTP password for logging in, which in my case is valetron
+
+AT+FTPPW="valetron"
+AT+FTPPW="zyf"
+
+OK
+
+//Set the file name which we want to download from the server, which is 1K.txt
+
+AT+FTPGETNAME="1K.txt"
+
+OK
+
+//Set the path from where the file needs to be downloaded, Here a forward slash ("/") means we are downloading from the root directory of my FTP account
+
+AT+FTPGETPATH="/"
+
+OK
+
+//Start the FTP get session, by giving this command
+
+AT+FTPGET=1
+
+OK
+
+//The below URC means that data is received and is available for reading
+
++FTPGET:1,1
+
+//The below command instructs the module to read 1024 bytes of data, if there is lesser bytes of data available then it only gives us that much amount of data
+
+AT+FTPGET=2,1024
+
+//The below URC means that 10 bytes of data was read, which is printed below as Hello12345, which is the content of the file 1K.txt 
+
+
++FTPGET:2,10
+
+Hello12345
+
+OK
+
+//The below URC means that FTP server session is closed
+
++FTPGET:1,0
+
+//This is how you upload and download files via FTP in SIM900 and SIM800 GSM module also. 
+
+//Hope it helps someone.  
+
+
+////////// List contents of remote directory
+
+//For simplicity we will download the same file we uploaded earlier 
+
+//We were allocated a IP address and now we can proceed further by setting up the FTP bearer profile identifier
+
+AT+FTPCID=1
+
+OK
+
+//Set the FTP server name to which we want to connect, which in my case is ftp.marsinnovations.in
+
+AT+FTPSERV="ftp.marsinnovations.in"
+AT+FTPSERV="simcom.exavault.com"
+
+OK
+
+//Set the FTP user name, which in my case is valetron@marsinnovations.in
+
+AT+FTPUN="valetron@marsinnovations.in"
+AT+FTPUN="zyf"
+
+OK
+
+//Set the FTP password for logging in, which in my case is valetron
+
+AT+FTPPW="valetron"
+AT+FTPPW="zyf"
+
+OK
+
+//Set the path from where the file needs to be downloaded, Here a forward slash ("/") means we are downloading from the root directory of my FTP account
+
+AT+FTPGETPATH="/"
+
+OK
+
+//Open the FTP session.
+AT+FTPLIST=1 
+OK 
++FTPLIST: 1,1  //Data are available 
+
+//Request to read 1024 bytes, but only 126 bytes are now available
++FTPLIST: 2,126 
+total 0 
+drw-rw-rw- 1 user group 0 Oct 1
+14:58. 
+drw-rw-rw- 1 user group 0 Oct 1
+14:58… 
+OK
+//Data transfer finished. The connection to the remote machine is closed
++FTPLIST: 1,0 
+
+
+/////////////////////Make and remove directory on the remote machine.
+
+AT+FTPCID=1
+
+OK
+
+//Set the FTP server name to which we want to connect, which in my case is ftp.marsinnovations.in
+
+AT+FTPSERV="ftp.marsinnovations.in"
+AT+FTPSERV="simcom.exavault.com"
+
+OK
+
+//Set the FTP user name, which in my case is valetron@marsinnovations.in
+
+AT+FTPUN="valetron@marsinnovations.in"
+AT+FTPUN="zyf"
+
+OK
+
+//Set the FTP password for logging in, which in my case is valetron
+
+AT+FTPPW="valetron"
+AT+FTPPW="zyf"
+
+OK
+
+//Set the path from where the file needs to be downloaded, Here a forward slash ("/") means we are downloading from the root directory of my FTP account
+
+AT+FTPGETPATH="/"
+
+OK
+////////////////////////Make directory
+
+AT+FTPMKD //Open the FTP session.
+OK
++FTPMKD: 1,0  //The directory "test" is made on the remote machine 
+
+//////////////////////Remove directory
+
+AT+FTPRMD //Open the FTP session 
+OK
++FTPRMD: 1,0  //The directory "test" is removed from the remote machine 
+
